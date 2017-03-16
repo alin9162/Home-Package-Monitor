@@ -3,10 +3,9 @@ package com.example.andylin.homepackagemonitor.View.Activities;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -15,17 +14,24 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.andylin.homepackagemonitor.Fragments.BoxStatusFragment;
+import com.example.andylin.homepackagemonitor.Fragments.HomeFragment;
+import com.example.andylin.homepackagemonitor.Fragments.SettingsFragment;
 import com.example.andylin.homepackagemonitor.R;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private static final String TAG = "MainActivity";
-    private static final String PREFS_FILE_NAME = "PreferenceFile";
+    public static final String PREFS_FILE_NAME = "PreferenceFile";
     public static final int LOG_IN_REQUEST = 1;
 
+    private HomeFragment homeFragment;
+    private SettingsFragment settingsFragment;
+    private BoxStatusFragment boxStatusFragment;
+
     NavigationView navigationView;
+    TextView drawerMessage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +46,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
         // Check if the user is already logged in, if they aren't then open the log in activity
@@ -51,20 +57,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             startActivityForResult(intent, LOG_IN_REQUEST);
         }
 
-        navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.getMenu().getItem(0).setChecked(true);
+        if (savedInstanceState == null){
+            homeFragment = new HomeFragment();
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            transaction.replace(R.id.content_main, homeFragment);
+            transaction.addToBackStack(null);
+            transaction.commit();
+        }
 
         View header = navigationView.getHeaderView(0);
-        TextView drawerMessage = (TextView) header.findViewById(R.id.drawer_welcome_message);
+        drawerMessage = (TextView) header.findViewById(R.id.drawer_welcome_message);
         drawerMessage.setText("Welcome " +  loginSettings.getString("username", ""));
-
-
-//        byte[] array = hexStringToByteArray(cameraDump);
-//
-//        Bitmap bmp = BitmapFactory.decodeByteArray(array, 0, array.length);
-//        ImageView image = (ImageView) findViewById(R.id.image);
-//        image.setImageBitmap(bmp);
-
     }
 
     @Override
@@ -74,7 +77,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 SharedPreferences.Editor editor = getSharedPreferences(PREFS_FILE_NAME, MODE_PRIVATE).edit();
                 editor.putBoolean("isLoggedIn", true);
                 editor.putString("username", data.getStringExtra("USERNAME"));
+                editor.putString("password", data.getStringExtra("PASSWORD"));
+                editor.putString("deviceid", data.getStringExtra("DEVICEID"));
                 editor.commit();
+
+                drawerMessage.setText("Welcome " +  data.getStringExtra("USERNAME"));
+
+                navigationView.getMenu().getItem(0).setChecked(true);
             }
         }
     }
@@ -118,14 +127,31 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         int id = item.getItemId();
 
         if (id == R.id.nav_home) {
+            if(homeFragment == null)
+                homeFragment = new HomeFragment();
 
-        } else if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            transaction.replace(R.id.content_main, homeFragment);
+            transaction.addToBackStack(null);
+            transaction.commit();
 
-        } else if (id == R.id.nav_history) {
+        }  else if (id == R.id.nav_history) {
+            if(boxStatusFragment == null)
+                boxStatusFragment = new BoxStatusFragment();
+
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            transaction.replace(R.id.content_main, boxStatusFragment);
+            transaction.addToBackStack(null);
+            transaction.commit();
 
         } else if (id == R.id.nav_settings) {
+            if(settingsFragment == null)
+                settingsFragment = new SettingsFragment();
+
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            transaction.replace(R.id.content_main, settingsFragment);
+            transaction.addToBackStack(null);
+            transaction.commit();
 
         } else if (id == R.id.nav_sign_out) {
 
@@ -146,13 +172,4 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return true;
     }
 
-    public static byte[] hexStringToByteArray(String s) {
-        int len = s.length();
-        byte[] data = new byte[len / 2];
-        for (int i = 0; i < len; i += 2) {
-            data[i / 2] = (byte) ((Character.digit(s.charAt(i), 16) << 4)
-                    + Character.digit(s.charAt(i+1), 16));
-        }
-        return data;
-    }
 }

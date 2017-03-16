@@ -28,6 +28,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private EditText usernameText;
     private EditText passwordText;
+    private EditText deviceIDText;
 
     private Button signInButton;
 
@@ -41,6 +42,7 @@ public class LoginActivity extends AppCompatActivity {
 
         usernameText = (EditText) findViewById(R.id.username_text);
         passwordText = (EditText) findViewById(R.id.password_text);
+        deviceIDText = (EditText) findViewById(R.id.device_id_text);
 
         signInButton = (Button) findViewById(R.id.sign_in_button);
 
@@ -116,6 +118,8 @@ public class LoginActivity extends AppCompatActivity {
                         // Set RESULT_OK after successful Login.
                         Intent returnIntent = new Intent();
                         returnIntent.putExtra("USERNAME", usernameText.getText().toString());
+                        returnIntent.putExtra("PASSWORD", passwordText.getText().toString());
+                        returnIntent.putExtra("DEVICEID", deviceIDText.getText().toString());
                         setResult(Activity.RESULT_OK, returnIntent);
                         finish();
                         progressDialog.dismiss();
@@ -140,12 +144,17 @@ public class LoginActivity extends AppCompatActivity {
     public boolean isValidInput() {
         String userNameInput = usernameText.getText().toString();
         String passwordInput = passwordText.getText().toString();
+        String deviceIDInput = deviceIDText.getText().toString();
 
         if (userNameInput.equals("") || userNameInput == null) {
             return false;
         }
 
         if (passwordInput.equals("") || passwordInput == null) {
+            return false;
+        }
+
+        if (deviceIDInput.equals("") || deviceIDInput == null){
             return false;
         }
 
