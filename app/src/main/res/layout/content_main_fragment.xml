@@ -1,95 +1,129 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/content_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="10dp"
     android:orientation="vertical"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.example.andylin.homepackagemonitor.View.Activities.MainActivity">
+    android:padding="10dp"
+    android:background="@color/white"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Pending Requests"
-        android:textSize="20sp"
-        android:padding="10sp"
-        android:textColor="@color/black"
-        android:layout_gravity="center_horizontal"/>
-
-    <TextView
-        android:id="@+id/pending_request_label"
-        android:visibility="gone"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="You have no pending requests."
-        android:textSize="20sp"
-        android:textColor="@color/black"
-        android:layout_gravity="center_horizontal"/>
-
-    <android.support.v7.widget.CardView
-        android:visibility="gone"
-        android:id="@+id/card_view"
+    <android.support.design.widget.TabLayout
+        android:id="@+id/tabs"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardCornerRadius="3dp"
-        app:cardElevation="4dp"
-        app:cardUseCompatPadding="true">
+        app:tabMode="fixed">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+    </android.support.design.widget.TabLayout>
 
-            <ImageView
-                android:id="@+id/pending_image"
-                android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:scaleType="centerCrop"
-                android:adjustViewBounds="true"
-                android:src="@drawable/ubc"/>
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-            <TextView
-                android:id="@+id/market_list_item_name"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ellipsize="end"
-                android:maxLines="2"
-                android:paddingLeft="16dp"
-                android:paddingRight="16dp"
-                android:paddingTop="20dp"
-                android:scrollHorizontally="true"
-                android:text="Access Requested"
-                android:textColor="@color/black"
-                android:textSize="20sp" />
+    </android.support.v4.view.ViewPager>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="8dp"
-                android:orientation="horizontal">
+    <!--<TextView-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="48dp"-->
+        <!--android:fontFamily="sans-serif"-->
+        <!--android:gravity="center_vertical"-->
+        <!--android:paddingLeft="5sp"-->
+        <!--android:text="Pending Requests"-->
+        <!--android:textColor="@color/black"-->
+        <!--android:textSize="16sp" />-->
 
-                <Button
-                    android:id="@+id/accept_button"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:background="?android:attr/selectableItemBackground"
-                    android:text="Accept"
-                    android:textColor="#03A9F4"/>
+    <!--<TextView-->
+        <!--android:id="@+id/pending_request_label"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:paddingLeft="5dp"-->
+        <!--android:text="There are currently no pending requests"-->
+        <!--android:textColor="@color/black"-->
+        <!--android:textSize="14sp"-->
+        <!--android:visibility="gone" />-->
 
-                <Button
-                    android:id="@+id/decline_button"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:background="?android:attr/selectableItemBackground"
-                    android:text="Decline"
-                    android:textColor="#ff0000"/>
-            </LinearLayout>
-        </LinearLayout>
-    </android.support.v7.widget.CardView>
+    <!--<android.support.v7.widget.CardView-->
+        <!--android:id="@+id/card_view"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:visibility="gone"-->
+        <!--app:cardCornerRadius="3dp"-->
+        <!--app:cardElevation="4dp"-->
+        <!--app:cardUseCompatPadding="true">-->
+
+        <!--<LinearLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:orientation="vertical">-->
+
+            <!--<ImageView-->
+                <!--android:id="@+id/pending_image"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="200dp"-->
+                <!--android:adjustViewBounds="true"-->
+                <!--android:scaleType="centerCrop"-->
+                <!--android:src="@drawable/ubc" />-->
+
+            <!--<TextView-->
+                <!--android:id="@+id/market_list_item_name"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:ellipsize="end"-->
+                <!--android:maxLines="2"-->
+                <!--android:paddingLeft="16dp"-->
+                <!--android:paddingRight="16dp"-->
+                <!--android:paddingTop="20dp"-->
+                <!--android:scrollHorizontally="true"-->
+                <!--android:text="Access Requested"-->
+                <!--android:textColor="@color/black"-->
+                <!--android:textSize="20sp" />-->
+
+            <!--<LinearLayout-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_margin="8dp"-->
+                <!--android:orientation="horizontal">-->
+
+                <!--<Button-->
+                    <!--android:id="@+id/accept_button"-->
+                    <!--android:layout_width="0dp"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_weight="1"-->
+                    <!--android:background="?android:attr/selectableItemBackground"-->
+                    <!--android:text="Accept"-->
+                    <!--android:textColor="#03A9F4" />-->
+
+                <!--<Button-->
+                    <!--android:id="@+id/decline_button"-->
+                    <!--android:layout_width="0dp"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_weight="1"-->
+                    <!--android:background="?android:attr/selectableItemBackground"-->
+                    <!--android:text="Decline"-->
+                    <!--android:textColor="#ff0000" />-->
+            <!--</LinearLayout>-->
+        <!--</LinearLayout>-->
+    <!--</android.support.v7.widget.CardView>-->
+
+    <!--<TextView-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="48dp"-->
+        <!--android:fontFamily="sans-serif"-->
+        <!--android:gravity="center_vertical"-->
+        <!--android:paddingLeft="5sp"-->
+        <!--android:text="TestUser's HPM"-->
+        <!--android:textColor="@color/black"-->
+        <!--android:textSize="16sp" />-->
+
+    <!--<GridView-->
+        <!--android:id="@+id/gridview"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:columnWidth="100dp"-->
+        <!--android:gravity="center"-->
+        <!--android:horizontalSpacing="10dp"-->
+        <!--android:numColumns="auto_fit"-->
+        <!--android:stretchMode="columnWidth"-->
+        <!--android:verticalSpacing="10dp"></GridView>-->
 </LinearLayout>

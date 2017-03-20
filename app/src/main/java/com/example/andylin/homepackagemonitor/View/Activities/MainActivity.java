@@ -5,17 +5,21 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import com.example.andylin.homepackagemonitor.Adapters.PageAdapter;
 import com.example.andylin.homepackagemonitor.Fragments.BoxStatusFragment;
 import com.example.andylin.homepackagemonitor.Fragments.HomeFragment;
 import com.example.andylin.homepackagemonitor.Fragments.SettingsFragment;
@@ -58,11 +62,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
 
         if (savedInstanceState == null){
-            homeFragment = new HomeFragment();
-            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            transaction.replace(R.id.content_main, homeFragment);
-            transaction.addToBackStack(null);
-            transaction.commit();
+            startHomeFragment();
         }
 
         View header = navigationView.getHeaderView(0);
@@ -127,49 +127,64 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         int id = item.getItemId();
 
         if (id == R.id.nav_home) {
-            if(homeFragment == null)
-                homeFragment = new HomeFragment();
-
-            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            transaction.replace(R.id.content_main, homeFragment);
-            transaction.addToBackStack(null);
-            transaction.commit();
-
-        }  else if (id == R.id.nav_history) {
-            if(boxStatusFragment == null)
-                boxStatusFragment = new BoxStatusFragment();
-
-            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            transaction.replace(R.id.content_main, boxStatusFragment);
-            transaction.addToBackStack(null);
-            transaction.commit();
-
+            startHomeFragment();
         } else if (id == R.id.nav_settings) {
-            if(settingsFragment == null)
-                settingsFragment = new SettingsFragment();
-
-            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            transaction.replace(R.id.content_main, settingsFragment);
-            transaction.addToBackStack(null);
-            transaction.commit();
-
+            startSettingsFragment();
         } else if (id == R.id.nav_sign_out) {
-
-            final ProgressDialog progressDialog = new ProgressDialog(this);
-            progressDialog.setCancelable(false);
-            progressDialog.setMessage("Signing Out...");
-            progressDialog.show();
-
-            getSharedPreferences(PREFS_FILE_NAME, MODE_PRIVATE).edit().clear().commit();
-
-            progressDialog.dismiss();
-            Intent intent = new Intent(this, LoginActivity.class);
-            startActivityForResult(intent, LOG_IN_REQUEST);
+            signOut();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    /*
+        Starts the Home Fragment
+     */
+    public void startHomeFragment(){
+        if(homeFragment == null)
+            homeFragment = new HomeFragment();
+
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.main_content, homeFragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
+
+        Log.e(TAG, "Switching to the Home Fragment");
+    }
+
+    /*
+        Start Settings Fragment
+     */
+    public void startSettingsFragment(){
+        if(settingsFragment == null)
+            settingsFragment = new SettingsFragment();
+
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.main_content, settingsFragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
+
+        Log.e(TAG, "Switching to the Settings Fragment");
+    }
+
+    /*
+        Sign the user out
+     */
+    public void signOut(){
+        final ProgressDialog progressDialog = new ProgressDialog(this);
+        progressDialog.setCancelable(false);
+        progressDialog.setMessage("Signing Out...");
+        progressDialog.show();
+
+        getSharedPreferences(PREFS_FILE_NAME, MODE_PRIVATE).edit().clear().commit();
+
+        Log.e(TAG, "Signing Out");
+
+        progressDialog.dismiss();
+        Intent intent = new Intent(this, LoginActivity.class);
+        startActivityForResult(intent, LOG_IN_REQUEST);
     }
 
 }
