@@ -8,14 +8,12 @@ public class BoxHistory {
     private String dateAccessed;
     private boolean wasGranted;
     private String imageBytes;
-    private boolean hasAcknowledged;
     private int id;
 
-    public BoxHistory(String dateAccessed, boolean wasGranted, String imageBytes, boolean hasAcknowledged, int id){
+    public BoxHistory(String dateAccessed, boolean wasGranted, String imageBytes, int id){
         this.dateAccessed = dateAccessed;
         this.wasGranted = wasGranted;
         this.imageBytes = imageBytes;
-        this.hasAcknowledged = hasAcknowledged;
         this.id = id;
     }
 
@@ -29,10 +27,6 @@ public class BoxHistory {
 
     public String getImageBytes(){
         return imageBytes;
-    }
-
-    public boolean getHasAcknowledged(){
-        return hasAcknowledged;
     }
 
     public int getId(){

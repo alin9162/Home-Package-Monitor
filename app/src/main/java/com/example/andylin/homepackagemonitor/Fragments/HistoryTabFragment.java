@@ -38,6 +38,8 @@ import java.util.List;
  */
 
 public class HistoryTabFragment extends Fragment implements View.OnClickListener{
+    private static final String TAG = "HistoryTabFragment";
+
     private GridView gridView;
     private ImageButton gridDisplayButton;
     private ImageButton listDisplayButton;
@@ -115,9 +117,8 @@ public class HistoryTabFragment extends Fragment implements View.OnClickListener
                 String dateAccessed = jsonObject.getString("datetime");
                 Boolean wasGranted = jsonObject.getBoolean("wasgranted");
                 String image = jsonObject.getString("imagebytes");
-                Boolean wasAcknowledged = jsonObject.getBoolean("hasack");
                 int id = jsonObject.getInt("id");
-                BoxHistory boxHistory = new BoxHistory(dateAccessed, wasGranted, image.substring(10), wasAcknowledged, id);
+                BoxHistory boxHistory = new BoxHistory(dateAccessed, wasGranted, image.substring(10), id);
                 boxHistoryList.add(boxHistory);
             }
             catch(JSONException e){
@@ -135,7 +136,6 @@ public class HistoryTabFragment extends Fragment implements View.OnClickListener
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(boxHistoryListAdapter);
-
     }
 
     @Override

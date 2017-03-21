@@ -5,10 +5,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
-import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -19,8 +17,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
-import com.example.andylin.homepackagemonitor.Adapters.PageAdapter;
-import com.example.andylin.homepackagemonitor.Fragments.BoxStatusFragment;
 import com.example.andylin.homepackagemonitor.Fragments.HomeFragment;
 import com.example.andylin.homepackagemonitor.Fragments.SettingsFragment;
 import com.example.andylin.homepackagemonitor.R;
@@ -32,7 +28,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private HomeFragment homeFragment;
     private SettingsFragment settingsFragment;
-    private BoxStatusFragment boxStatusFragment;
 
     NavigationView navigationView;
     TextView drawerMessage;
@@ -78,7 +73,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 editor.putBoolean("isLoggedIn", true);
                 editor.putString("username", data.getStringExtra("USERNAME"));
                 editor.putString("password", data.getStringExtra("PASSWORD"));
-                editor.putString("deviceid", data.getStringExtra("DEVICEID"));
                 editor.commit();
 
                 drawerMessage.setText("Welcome " +  data.getStringExtra("USERNAME"));

@@ -118,6 +118,8 @@ public class SignUpActivity extends AppCompatActivity {
                 @Override
                 public void onErrorResponse(VolleyError error) {
                     error.printStackTrace();
+                    progressDialog.dismiss();
+                    Toast.makeText(getApplicationContext(), "Error creating account", Toast.LENGTH_SHORT).show();
                 }
             })  {
                 @Override
