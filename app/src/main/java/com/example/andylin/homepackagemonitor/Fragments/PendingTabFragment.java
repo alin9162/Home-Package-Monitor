@@ -4,10 +4,12 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.nfc.Tag;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,6 +47,7 @@ public class PendingTabFragment extends Fragment{
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        Log.e(TAG, "Refreshing Pending Tab");
         getPendingRequests();
     }
 
@@ -180,5 +183,9 @@ public class PendingTabFragment extends Fragment{
         };
         // Access the RequestQueue through the singleton class to add the request to the request queue
         VolleySingleton.getInstance(getActivity()).getRequestQueue().add(stringRequest);
+    }
+
+    public void refreshFragment(){
+        getPendingRequests();
     }
 }

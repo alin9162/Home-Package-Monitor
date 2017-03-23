@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,6 +50,7 @@ public class HistoryTabFragment extends Fragment implements View.OnClickListener
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        Log.e(TAG, "Refreshing History Tab");
         getCameraImage();
     }
 
@@ -71,7 +73,7 @@ public class HistoryTabFragment extends Fragment implements View.OnClickListener
         gridView = (GridView) view.findViewById(R.id.gridview);
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-                Toast.makeText(getActivity(), "" + position, Toast.LENGTH_SHORT).show();
+
             }
         });
         return view;
@@ -154,5 +156,9 @@ public class HistoryTabFragment extends Fragment implements View.OnClickListener
             default:
                 break;
         }
+    }
+
+    public void refreshFragment(){
+        getCameraImage();
     }
 }
