@@ -12,6 +12,7 @@ import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import java.io.IOException;
@@ -37,21 +38,21 @@ public class StatusTabFragment extends Fragment{
     public static OutputStream mmOutStream = null;
     private boolean Connected = false;
 
-    private Button unlockButton;
-    private Button lockButton;
+    private LinearLayout unlockButton;
+    private LinearLayout lockButton;
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.content_status_tab_fragment, container, false);
-        unlockButton = (Button) view.findViewById(R.id.unlock_button);
+        unlockButton = (LinearLayout) view.findViewById(R.id.unlock_button);
         unlockButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 lockDevice(false);
             }
         });
-        lockButton = (Button) view.findViewById(R.id.lock_button);
+        lockButton = (LinearLayout) view.findViewById(R.id.lock_button);
         lockButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
