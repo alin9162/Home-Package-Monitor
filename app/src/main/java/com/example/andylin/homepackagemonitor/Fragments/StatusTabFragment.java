@@ -1,5 +1,6 @@
 package com.example.andylin.homepackagemonitor.Fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -30,7 +31,7 @@ import com.example.andylin.homepackagemonitor.R;
 
 public class StatusTabFragment extends Fragment{
     private static final String TAG = "StatusTabFragment";
-
+    private boolean socketConnected = false;
     private BluetoothAdapter mBluetoothAdapter;
     public BluetoothDevice aNewdevice;
     private BluetoothSocket mmSocket = null;
@@ -40,23 +41,55 @@ public class StatusTabFragment extends Fragment{
 
     private LinearLayout unlockButton;
     private LinearLayout lockButton;
-
+    BluetoothDevice ourDevice;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.content_status_tab_fragment, container, false);
+
+        mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+        // check to see if your android device even has a bluetooth device !!!!,
+        if (mBluetoothAdapter == null) {
+            Toast.makeText(getActivity(), "No Bluetooth !!", Toast.LENGTH_LONG).show();
+        }
+
+        if (!mBluetoothAdapter.isEnabled()) {
+            Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+            startActivityForResult(enableBtIntent, 1);
+        }
+
+
+
         unlockButton = (LinearLayout) view.findViewById(R.id.unlock_button);
         unlockButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                lockDevice(false);
+                ourDevice = lockDevice();
+                CreateSerialBluetoothDeviceSocket(aNewdevice);
+                if(Connected == false) {
+                    ConnectToSerialBlueToothDevice();
+                }
+
+                GetInputOutputStreamsForSocket();
+                WriteToBTDevice("uuuuuuuu");
+                //closeConnection();
+
             }
         });
         lockButton = (LinearLayout) view.findViewById(R.id.lock_button);
         lockButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                lockDevice(true);
+                ourDevice = lockDevice();
+                CreateSerialBluetoothDeviceSocket(aNewdevice);
+
+                if(Connected == false) {
+                    ConnectToSerialBlueToothDevice();
+                }
+
+                GetInputOutputStreamsForSocket();
+                WriteToBTDevice("llllllll");
+                //closeConnection();
             }
         });
         return view;
@@ -68,13 +101,7 @@ public class StatusTabFragment extends Fragment{
         Log.e(TAG, "Refreshing Status Tab");
     }
 
-    public void lockDevice(boolean lock){
-        mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-        // check to see if your android device even has a bluetooth device !!!!,
-        if (mBluetoothAdapter == null) {
-            Toast.makeText(getActivity(), "No Bluetooth !!", Toast.LENGTH_LONG).show();
-            return ;
-        }
+    public BluetoothDevice lockDevice() {
 
         Set<BluetoothDevice> thePairedDevices = mBluetoothAdapter.getBondedDevices();
 
@@ -87,26 +114,31 @@ public class StatusTabFragment extends Fragment{
 
                 String PairedDevice = new String(aNewdevice.getName());
 
-                if(PairedDevice.equals("HPM")) {
-                    break;
+                if (PairedDevice.equals("HPM")) {
+                    return aNewdevice;
                 }
             }
         }
-        CreateSerialBluetoothDeviceSocket(aNewdevice);
 
-        ConnectToSerialBlueToothDevice();
-
-        GetInputOutputStreamsForSocket();
-
-        if (lock){
-            WriteToBTDevice("llllllll");
-        }
-        else {
-            WriteToBTDevice("uuuuuuuu");
-        }
+        Toast.makeText(getActivity(), "Stuck in lockDevice function", Toast.LENGTH_LONG).show();
+        return aNewdevice;
     }
 
+
+
+
+
+
+
+
+
     public void CreateSerialBluetoothDeviceSocket(BluetoothDevice device) {
+        if(socketConnected == true) {
+            return;
+        }
+
+        socketConnected = true;
+
         mmSocket = null;
 
         // universal UUID for a serial profile RFCOMM blue tooth device
