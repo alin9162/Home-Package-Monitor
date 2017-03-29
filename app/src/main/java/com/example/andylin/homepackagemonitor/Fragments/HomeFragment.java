@@ -9,6 +9,7 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.andylin.homepackagemonitor.Adapters.PageAdapter;
 import com.example.andylin.homepackagemonitor.R;
@@ -41,7 +42,8 @@ public class HomeFragment extends Fragment{
         fragmentList.add(new PendingTabFragment());
         fragmentList.add(new HistoryTabFragment());
         fragmentList.add(new StatusTabFragment());
-        viewPager.setAdapter(new PageAdapter(getChildFragmentManager(), fragmentList));
+        final PageAdapter mAdapter = new PageAdapter(getChildFragmentManager(), fragmentList);
+        viewPager.setAdapter(mAdapter);
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -50,8 +52,10 @@ public class HomeFragment extends Fragment{
 
             @Override
             public void onPageSelected(int position) {
-                //viewPager.getAdapter().notifyDataSetChanged();
-                
+                viewPager.getAdapter().notifyDataSetChanged();
+                if (position == 2){
+                    ((StatusTabFragment) mAdapter.getItem(position)).checkBluetoothEnabled();
+                }
             }
 
             @Override

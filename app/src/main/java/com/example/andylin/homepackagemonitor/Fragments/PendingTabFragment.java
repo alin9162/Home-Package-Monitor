@@ -184,8 +184,4 @@ public class PendingTabFragment extends Fragment{
         // Access the RequestQueue through the singleton class to add the request to the request queue
         VolleySingleton.getInstance(getActivity()).getRequestQueue().add(stringRequest);
     }
-
-    public void refreshFragment(){
-        getPendingRequests();
-    }
 }

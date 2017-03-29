@@ -11,10 +11,10 @@ import java.util.List;
  * Created by Andy Lin on 2017-03-17.
  */
 
-public class PageAdapter extends FragmentStatePagerAdapter {
+public class PageAdapter extends FragmentPagerAdapter {
     final int PAGE_COUNT = 3;
-    List<Fragment> fragmentList;
-    private String tabTitles[] = new String[] { "Pending", "History", "Status" };
+    public List<Fragment> fragmentList;
+    private String tabTitles[] = new String[] { "Pending", "History", "Control" };
 
     public PageAdapter (FragmentManager fm, List<Fragment> fragmentList){
         super(fm);

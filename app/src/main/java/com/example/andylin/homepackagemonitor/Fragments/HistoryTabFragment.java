@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -46,6 +47,7 @@ public class HistoryTabFragment extends Fragment implements View.OnClickListener
     private ImageButton listDisplayButton;
     private TextView viewTypeTextView;
     private RecyclerView recyclerView;
+    private SwipeRefreshLayout swipeContainer;
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -76,6 +78,24 @@ public class HistoryTabFragment extends Fragment implements View.OnClickListener
 
             }
         });
+
+        swipeContainer = (SwipeRefreshLayout) view.findViewById(R.id.swipeContainer);
+        // Setup refresh listener which triggers new data loading
+        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                // Your code to refresh the list here.
+                // Make sure you call swipeContainer.setRefreshing(false)
+                // once the network request has completed successfully.
+                getCameraImage();
+            }
+        });
+        // Configure the refreshing colors
+        swipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright,
+                android.R.color.holo_green_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_red_light);
+
         return view;
     }
 
@@ -138,6 +158,8 @@ public class HistoryTabFragment extends Fragment implements View.OnClickListener
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(boxHistoryListAdapter);
+
+        swipeContainer.setRefreshing(false);
     }
 
     @Override
@@ -156,9 +178,5 @@ public class HistoryTabFragment extends Fragment implements View.OnClickListener
             default:
                 break;
         }
-    }
-
-    public void refreshFragment(){
-        getCameraImage();
     }
 }
