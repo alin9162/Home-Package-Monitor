@@ -2,6 +2,7 @@ package com.example.andylin.homepackagemonitor.Fragments;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -256,6 +257,14 @@ public class StatusTabFragment extends Fragment {
                 GetInputOutputStreamsForSocket();
                 return true;
             }
+        }
+    }
+
+    @Override
+    public void setMenuVisibility(boolean menuVisible) {
+        super.setMenuVisibility(menuVisible);
+        if (menuVisible){
+            checkBluetoothEnabled();
         }
     }
 }

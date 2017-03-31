@@ -60,16 +60,6 @@ public class HistoryListAdapter extends RecyclerView.Adapter<HistoryListAdapter.
         }
     }
 
-    public void clear() {
-        boxHistoryList.clear();
-        notifyDataSetChanged();
-    }
-
-    public void addAll(List<BoxHistory> boxHistoryList) {
-        boxHistoryList.addAll(boxHistoryList);
-        notifyDataSetChanged();
-    }
-
     public class ViewHolder extends RecyclerView.ViewHolder {
         public ImageView boxStatusImage;
         public TextView boxStatusAccessGranted;

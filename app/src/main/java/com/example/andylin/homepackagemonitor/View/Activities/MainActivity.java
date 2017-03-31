@@ -36,6 +36,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -56,13 +57,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             startActivityForResult(intent, LOG_IN_REQUEST);
         }
 
-        if (savedInstanceState == null){
-            startHomeFragment();
-        }
-
         View header = navigationView.getHeaderView(0);
         drawerMessage = (TextView) header.findViewById(R.id.drawer_welcome_message);
         drawerMessage.setText("Welcome " +  loginSettings.getString("username", ""));
+
+        startHomeFragment();
     }
 
     @Override

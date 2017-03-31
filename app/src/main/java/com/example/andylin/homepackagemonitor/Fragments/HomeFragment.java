@@ -1,6 +1,5 @@
 package com.example.andylin.homepackagemonitor.Fragments;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
@@ -9,7 +8,6 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.example.andylin.homepackagemonitor.Adapters.PageAdapter;
 import com.example.andylin.homepackagemonitor.R;
@@ -53,9 +51,6 @@ public class HomeFragment extends Fragment{
             @Override
             public void onPageSelected(int position) {
                 viewPager.getAdapter().notifyDataSetChanged();
-                if (position == 2){
-                    ((StatusTabFragment) mAdapter.getItem(position)).checkBluetoothEnabled();
-                }
             }
 
             @Override
@@ -69,15 +64,5 @@ public class HomeFragment extends Fragment{
         tabLayout.setupWithViewPager(viewPager);
 
         return view;
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
     }
 }
