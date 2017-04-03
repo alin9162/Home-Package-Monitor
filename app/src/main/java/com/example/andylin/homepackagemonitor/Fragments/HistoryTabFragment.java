@@ -86,10 +86,14 @@ public class HistoryTabFragment extends Fragment implements View.OnClickListener
     public void getCameraImage(){
         SharedPreferences loginSettings = getActivity().getSharedPreferences("PreferenceFile", Context.MODE_PRIVATE);
         String username = loginSettings.getString("username", "");
+        String deviceid = loginSettings.getString("deviceid", "");
+
+        Log.e(TAG, "Current device id is: " + deviceid);
 
         JSONObject jsonObject = new JSONObject();
         try{
             jsonObject.put("username", username);
+            jsonObject.put("deviceid", deviceid);
         }
         catch(JSONException e){
             e.printStackTrace();

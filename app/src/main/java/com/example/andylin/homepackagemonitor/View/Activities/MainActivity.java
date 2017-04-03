@@ -12,25 +12,42 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.example.andylin.homepackagemonitor.Fragments.HomeFragment;
+import com.example.andylin.homepackagemonitor.Fragments.MapFragment;
 import com.example.andylin.homepackagemonitor.Fragments.SettingsFragment;
 import com.example.andylin.homepackagemonitor.R;
+import com.example.andylin.homepackagemonitor.Volley.CustomJSONArrayRequest;
+import com.example.andylin.homepackagemonitor.Volley.VolleySingleton;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, AdapterView.OnItemSelectedListener {
     private static final String TAG = "MainActivity";
     public static final String PREFS_FILE_NAME = "PreferenceFile";
     public static final int LOG_IN_REQUEST = 1;
 
-    private HomeFragment homeFragment;
-    private SettingsFragment settingsFragment;
+    private HomeFragment mHomeFragment;
+    private SettingsFragment mSettingsFragment;
+    private MapFragment mMapFragment;
 
-    NavigationView navigationView;
-    TextView drawerMessage;
+    private NavigationView navigationView;
+    private TextView drawerMessage;
+    private Spinner spinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,8 +58,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setSupportActionBar(toolbar);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
@@ -52,6 +68,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // Check if the user is already logged in, if they aren't then open the log in activity
         SharedPreferences loginSettings = getSharedPreferences(PREFS_FILE_NAME, MODE_PRIVATE);
         boolean loggedIn = loginSettings.getBoolean("isLoggedIn", false);
+
         if (!loggedIn){
             Intent intent = new Intent(this, LoginActivity.class);
             startActivityForResult(intent, LOG_IN_REQUEST);
@@ -59,7 +76,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         View header = navigationView.getHeaderView(0);
         drawerMessage = (TextView) header.findViewById(R.id.drawer_welcome_message);
+        spinner = (Spinner) header.findViewById(R.id.spinner);
+
         drawerMessage.setText("Welcome " +  loginSettings.getString("username", ""));
+        spinner.setOnItemSelectedListener(this);
+
+        requestDevices(loginSettings.getString("username", ""));
 
         startHomeFragment();
     }
@@ -91,28 +113,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
@@ -121,6 +121,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         if (id == R.id.nav_home) {
             startHomeFragment();
+        } else if (id  == R.id.nav_map){
+            startMapFragment();
         } else if (id == R.id.nav_settings) {
             startSettingsFragment();
         } else if (id == R.id.nav_sign_out) {
@@ -132,15 +134,66 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return true;
     }
 
+    public void requestDevices(String username){
+        JSONObject jsonObject = new JSONObject();
+        try{
+            jsonObject.put("username", username);
+        }
+        catch(JSONException e){
+            e.printStackTrace();
+        }
+
+        String url = getResources().getString(R.string.serverip) + "viewdevices";
+
+        CustomJSONArrayRequest jsonArrayRequest = new CustomJSONArrayRequest(Request.Method.PUT, url, jsonObject, new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
+                populateSpinner(response);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e(TAG, error.toString());
+            }
+        });
+
+        // Access the RequestQueue through the singleton class to add the request to the request queue
+        VolleySingleton.getInstance(this).getRequestQueue().add(jsonArrayRequest);
+    }
+
+    public void populateSpinner(JSONArray jsonArray){
+        List<String> spinnerList = new ArrayList<String>();
+
+        for (int i = 0; i < jsonArray.length(); i++){
+            try{
+                JSONObject jsonObject = jsonArray.getJSONObject(i);
+                String deviceid = jsonObject.getString("deviceid");
+                spinnerList.add(deviceid);
+            }
+            catch(JSONException e){
+                e.printStackTrace();
+            }
+        }
+
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, R.layout.support_simple_spinner_dropdown_item, spinnerList);
+        spinner.setAdapter(arrayAdapter);
+
+        if (spinnerList.size() > 0){
+            SharedPreferences.Editor editor = getSharedPreferences(PREFS_FILE_NAME, MODE_PRIVATE).edit();
+            editor.putString("deviceid", spinnerList.get(0));
+            editor.commit();
+        }
+    }
+
     /*
         Starts the Home Fragment
      */
     public void startHomeFragment(){
-        if(homeFragment == null)
-            homeFragment = new HomeFragment();
+        if(mHomeFragment == null)
+            mHomeFragment = new HomeFragment();
 
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.main_content, homeFragment);
+        transaction.replace(R.id.main_content, mHomeFragment);
         transaction.addToBackStack(null);
         transaction.commit();
 
@@ -148,14 +201,29 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     /*
+        Starts the Map Fragment
+     */
+    public void startMapFragment(){
+        if(mMapFragment == null)
+            mMapFragment = new MapFragment();
+
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.main_content, mMapFragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
+
+        Log.e(TAG, "Switching to the Map Fragment");
+    }
+
+    /*
         Start Settings Fragment
      */
     public void startSettingsFragment(){
-        if(settingsFragment == null)
-            settingsFragment = new SettingsFragment();
+        if(mSettingsFragment == null)
+            mSettingsFragment = new SettingsFragment();
 
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.main_content, settingsFragment);
+        transaction.replace(R.id.main_content, mSettingsFragment);
         transaction.addToBackStack(null);
         transaction.commit();
 
@@ -180,4 +248,22 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         startActivityForResult(intent, LOG_IN_REQUEST);
     }
 
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        SharedPreferences loginSettings = getSharedPreferences(PREFS_FILE_NAME, MODE_PRIVATE);
+        String currentDeviceID = loginSettings.getString("deviceid", "");
+        Log.e(TAG, "Current device id is: " + currentDeviceID);
+
+        if (!currentDeviceID.equals(parent.getItemAtPosition(position).toString())){
+            SharedPreferences.Editor editor = getSharedPreferences(PREFS_FILE_NAME, MODE_PRIVATE).edit();
+            editor.putString("deviceid", parent.getItemAtPosition(position).toString());
+            editor.commit();
+            Log.e(TAG, "Changed device id to: " + parent.getItemAtPosition(position).toString());
+        }
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
+    }
 }

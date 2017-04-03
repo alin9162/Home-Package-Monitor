@@ -6,6 +6,10 @@
             android:id="@+id/nav_home"
             android:icon="@drawable/ic_action_home"
             android:title="Home" />
+        <item
+            android:id="@+id/nav_map"
+            android:icon="@drawable/ic_map"
+            android:title="Map" />
     </group>
 
     <group
@@ -20,5 +24,4 @@
             android:icon="@drawable/ic_action_exit"
             android:title="Sign Out" />
     </group>
-
 </menu>

@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.nfc.Tag;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -48,7 +47,7 @@ public class PendingTabFragment extends Fragment{
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         Log.e(TAG, "Refreshing Pending Tab");
-        getPendingRequests();
+        checkPendingRequests();
     }
 
     @Override
@@ -77,26 +76,30 @@ public class PendingTabFragment extends Fragment{
         return view;
     }
 
-    public void getPendingRequests(){
+    public void checkPendingRequests(){
         SharedPreferences loginSettings = getActivity().getSharedPreferences("PreferenceFile", Context.MODE_PRIVATE);
         String username = loginSettings.getString("username", "");
         String password = loginSettings.getString("password", "");
+        String deviceid = loginSettings.getString("deviceid", "");
+
+        Log.e(TAG, "Current device id is: " + deviceid);
 
         JSONObject jsonObject = new JSONObject();
         try{
             jsonObject.put("username", username);
             jsonObject.put("password", password);
+            jsonObject.put("deviceid", deviceid);
         }
         catch(JSONException e){
             e.printStackTrace();
         }
 
-        String url = getResources().getString(R.string.serverip) + "getstatus";
+        String url = getResources().getString(R.string.serverip) + "checkpending";
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.PUT, url, jsonObject, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                parseJSONObject(response);
+                parseCheckPending(response);
             }
         }, new Response.ErrorListener() {
             @Override
@@ -109,12 +112,56 @@ public class PendingTabFragment extends Fragment{
         VolleySingleton.getInstance(getActivity()).getRequestQueue().add(jsonObjectRequest);
     }
 
-    public void parseJSONObject(JSONObject jsonObject){
+    public void parseCheckPending(JSONObject response){
+        boolean isPending = false;
+        try{
+            isPending = response.getBoolean("pendingrequest");
+        }
+        catch (JSONException e){
+            e.printStackTrace();
+        }
+
+        if (isPending){
+            SharedPreferences loginSettings = getActivity().getSharedPreferences("PreferenceFile", Context.MODE_PRIVATE);
+            String username = loginSettings.getString("username", "");
+            String password = loginSettings.getString("password", "");
+            String deviceid = loginSettings.getString("deviceid", "");
+
+            JSONObject jsonObject = new JSONObject();
+            try{
+                jsonObject.put("username", username);
+                jsonObject.put("password", password);
+                jsonObject.put("deviceid", deviceid);
+            }
+            catch(JSONException e){
+                e.printStackTrace();
+            }
+
+            String url = getResources().getString(R.string.serverip) + "getstatus";
+
+            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.PUT, url, jsonObject, new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
+                    parseGetStatus(response);
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    error.printStackTrace();
+                }
+            });
+
+            // Access the RequestQueue through the singleton class to add the request to the request queue
+            VolleySingleton.getInstance(getActivity()).getRequestQueue().add(jsonObjectRequest);
+        }
+    }
+
+    public void parseGetStatus(JSONObject response){
         String imageBytes = "";
         boolean isPending = false;
         try{
-            imageBytes = jsonObject.getString("imagebytes");
-            isPending = jsonObject.getBoolean("pendingrequest");
+            isPending = response.getBoolean("pendingrequest");
+            imageBytes = response.getString("imagebytes");
         }
         catch (JSONException e){
             e.printStackTrace();

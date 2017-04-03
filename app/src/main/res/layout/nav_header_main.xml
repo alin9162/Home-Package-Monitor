@@ -20,5 +20,10 @@
         android:text=""
         android:textSize="20sp"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
-
+    
+  <Spinner
+      android:id="@+id/spinner"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content">
+  </Spinner>
 </LinearLayout>
