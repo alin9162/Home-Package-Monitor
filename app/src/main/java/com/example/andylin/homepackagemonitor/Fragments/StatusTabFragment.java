@@ -263,7 +263,7 @@ public class StatusTabFragment extends Fragment {
     @Override
     public void setMenuVisibility(boolean menuVisible) {
         super.setMenuVisibility(menuVisible);
-        if (menuVisible){
+        if (menuVisible && isAdded()){
             checkBluetoothEnabled();
         }
     }

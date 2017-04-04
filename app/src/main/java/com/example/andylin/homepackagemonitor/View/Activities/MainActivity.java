@@ -81,7 +81,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawerMessage.setText("Welcome " +  loginSettings.getString("username", ""));
         spinner.setOnItemSelectedListener(this);
 
-        requestDevices(loginSettings.getString("username", ""));
+        requestDevices();
 
         startHomeFragment();
     }
@@ -129,12 +129,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             signOut();
         }
 
+        requestDevices();
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
 
-    public void requestDevices(String username){
+    public void requestDevices(){
+        SharedPreferences loginSettings = getSharedPreferences(PREFS_FILE_NAME, MODE_PRIVATE);
+        String username = loginSettings.getString("username", "");
+
         JSONObject jsonObject = new JSONObject();
         try{
             jsonObject.put("username", username);

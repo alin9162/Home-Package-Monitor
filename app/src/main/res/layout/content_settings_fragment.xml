@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -18,11 +17,11 @@
             android:id="@+id/account_button"
             android:layout_width="match_parent"
             android:layout_height="70dp"
-            android:paddingLeft="10dp"
+            android:background="?android:attr/selectableItemBackground"
             android:drawableLeft="@mipmap/account_logo"
             android:drawableRight="@mipmap/dropdown_carrot"
-            android:text="Account"
-            android:background="?android:attr/selectableItemBackground" />
+            android:paddingLeft="10dp"
+            android:text="Account" />
 
     </LinearLayout>
 
@@ -52,8 +51,8 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:background="?android:attr/selectableItemBackground"
-            android:text="Unpair Home Package Monitors"
-            android:gravity="center" />
+            android:gravity="center"
+            android:text="Unpair Home Package Monitors" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -90,47 +89,69 @@
                 android:layout_height="1dp"
                 android:background="#cccccc" />
         </LinearLayout>
-
     </LinearLayout>
 
-    <!--<LinearLayout-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="70dp"-->
-        <!--android:gravity="center"-->
-        <!--android:orientation="horizontal">-->
+    <Button
+        android:id="@+id/devices_button"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:background="?android:attr/selectableItemBackground"
+        android:drawableLeft="@drawable/ic_devices"
+        android:drawableRight="@mipmap/dropdown_carrot"
+        android:paddingLeft="10dp"
+        android:text="Devices" />
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="top"
+        android:orientation="horizontal">
 
-        <!--<ImageView-->
-            <!--android:id="@+id/about_logo"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_marginLeft="10dp"-->
-            <!--app:srcCompat="@mipmap/about_logo"/>-->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#cccccc" />
+    </LinearLayout>
 
-        <!--<TextView-->
-            <!--android:id="@+id/about_text"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_marginLeft="10dp"-->
-            <!--android:layout_weight="1"-->
-            <!--android:text="About"-->
-            <!--android:textSize="16dp" />-->
-    <!--</LinearLayout>-->
+    <LinearLayout
+        android:visibility="gone"
+        android:id="@+id/devices_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-    <!--<LinearLayout-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:gravity="top"-->
-        <!--android:orientation="horizontal">-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="5dp">
 
+            <android.support.v7.widget.AppCompatEditText
+                android:id="@+id/add_device_edittext"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="3"
+                android:hint="Add new device id"/>
 
-        <!--<View-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="1dp"-->
-            <!--android:background="#cccccc" />-->
-    <!--</LinearLayout>-->
+            <Button
+                android:id="@+id/add_device_button"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="?android:attr/selectableItemBackground"
+                android:text="+"
+                android:textSize="30dp"/>
 
+        </LinearLayout>
 
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/devices_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        </android.support.v7.widget.RecyclerView>
+
+    </LinearLayout>
 
 
 

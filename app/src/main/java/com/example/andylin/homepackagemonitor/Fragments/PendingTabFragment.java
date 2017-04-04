@@ -82,8 +82,6 @@ public class PendingTabFragment extends Fragment{
         String password = loginSettings.getString("password", "");
         String deviceid = loginSettings.getString("deviceid", "");
 
-        Log.e(TAG, "Current device id is: " + deviceid);
-
         JSONObject jsonObject = new JSONObject();
         try{
             jsonObject.put("username", username);
@@ -122,6 +120,7 @@ public class PendingTabFragment extends Fragment{
         }
 
         if (isPending){
+            Log.e(TAG, "Calling get status");
             SharedPreferences loginSettings = getActivity().getSharedPreferences("PreferenceFile", Context.MODE_PRIVATE);
             String username = loginSettings.getString("username", "");
             String password = loginSettings.getString("password", "");

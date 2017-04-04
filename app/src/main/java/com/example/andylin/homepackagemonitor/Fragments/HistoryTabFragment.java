@@ -88,8 +88,6 @@ public class HistoryTabFragment extends Fragment implements View.OnClickListener
         String username = loginSettings.getString("username", "");
         String deviceid = loginSettings.getString("deviceid", "");
 
-        Log.e(TAG, "Current device id is: " + deviceid);
-
         JSONObject jsonObject = new JSONObject();
         try{
             jsonObject.put("username", username);
