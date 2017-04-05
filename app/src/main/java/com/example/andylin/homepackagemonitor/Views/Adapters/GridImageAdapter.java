@@ -62,6 +62,7 @@ public class GridImageAdapter extends BaseAdapter {
         byte[] cameraByteArray = ImageUtils.hexStringToByteArray(item.getImageBytes());
         Bitmap bmp = BitmapFactory.decodeByteArray(cameraByteArray, 0, cameraByteArray.length);
         imageView.setImageBitmap(bmp);
+
         return imageView;
     }
 }
