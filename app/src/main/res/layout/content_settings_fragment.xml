@@ -37,26 +37,6 @@
         android:orientation="vertical"
         android:visibility="gone">
 
-        <Button
-            android:id="@+id/unpair_box_ids"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:background="?android:attr/selectableItemBackground"
-            android:gravity="center"
-            android:text="Unpair Home Package Monitors" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="top"
-            android:orientation="horizontal">
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="#cccccc" />
-        </LinearLayout>
-
         <EditText
             android:id="@+id/phone_number_entry"
             android:layout_width="match_parent"
