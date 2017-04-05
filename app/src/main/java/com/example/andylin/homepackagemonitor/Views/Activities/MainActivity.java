@@ -3,6 +3,7 @@ package com.example.andylin.homepackagemonitor.Views.Activities;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentTransaction;
@@ -296,7 +297,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         SharedPreferences loginSettings = getSharedPreferences(PREFS_FILE_NAME, MODE_PRIVATE);
         String currentDeviceID = loginSettings.getString("deviceid", "");
         Log.e(TAG, "Current device id is: " + currentDeviceID);
-
+        ((TextView) view).setTextColor(Color.WHITE);
         if (!currentDeviceID.equals(parent.getItemAtPosition(position).toString())){
             SharedPreferences.Editor editor = getSharedPreferences(PREFS_FILE_NAME, MODE_PRIVATE).edit();
             editor.putString("deviceid", parent.getItemAtPosition(position).toString());
