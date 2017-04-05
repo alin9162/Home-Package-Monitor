@@ -1,4 +1,4 @@
-package com.example.andylin.homepackagemonitor.Adapters;
+package com.example.andylin.homepackagemonitor.Views.Adapters;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;

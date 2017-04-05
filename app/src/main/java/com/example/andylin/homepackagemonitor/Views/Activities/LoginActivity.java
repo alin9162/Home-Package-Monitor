@@ -1,4 +1,4 @@
-package com.example.andylin.homepackagemonitor.View.Activities;
+package com.example.andylin.homepackagemonitor.Views.Activities;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -15,8 +15,8 @@ import android.widget.Toast;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.example.andylin.homepackagemonitor.R;
-import com.example.andylin.homepackagemonitor.Volley.BooleanRequest;
 import com.example.andylin.homepackagemonitor.Volley.VolleySingleton;
 
 import org.json.JSONException;
@@ -90,6 +90,9 @@ public class LoginActivity extends AppCompatActivity {
             progressDialog.setMessage("Authenticating...");
             progressDialog.show();
 
+            Log.e(TAG, "Username: " + usernameText.getText().toString());
+            Log.e(TAG, "Password: " + passwordText.getText().toString());
+
             // Create a JSON Object that uses the user inputted username and password
             JSONObject jsonObject = new JSONObject();
             try{
@@ -103,13 +106,18 @@ public class LoginActivity extends AppCompatActivity {
 
             String url = getResources().getString(R.string.serverip) + "login";
 
-            // Make a custom BooleanRequest to make HTTP requests
-            BooleanRequest booleanRequest = new BooleanRequest(Request.Method.PUT, url, jsonObject.toString(), new Response.Listener<Boolean>() {
+            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.PUT, url, jsonObject, new Response.Listener<JSONObject>() {
                 @Override
-                public void onResponse(Boolean response) {
-                    // Check if the response was true or false
-                    if (response) {
-
+                public void onResponse(JSONObject response) {
+                    Log.e(TAG, response.toString());
+                    String result = "";
+                    try{
+                        result = response.getString("result");
+                    }
+                    catch (JSONException e){
+                        e.printStackTrace();
+                    }
+                    if (result.equals("true")) {
                         // Set RESULT_OK after successful Login.
                         Intent returnIntent = new Intent();
                         returnIntent.putExtra("USERNAME", usernameText.getText().toString());
@@ -131,7 +139,7 @@ public class LoginActivity extends AppCompatActivity {
             });
 
             // Access the RequestQueue through the singleton class to add the request to the request queue
-            VolleySingleton.getInstance(this).getRequestQueue().add(booleanRequest);
+            VolleySingleton.getInstance(this).getRequestQueue().add(jsonObjectRequest);
         }
     }
 

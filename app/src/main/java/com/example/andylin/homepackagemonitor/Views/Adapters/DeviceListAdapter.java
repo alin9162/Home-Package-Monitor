@@ -1,4 +1,4 @@
-package com.example.andylin.homepackagemonitor.Adapters;
+package com.example.andylin.homepackagemonitor.Views.Adapters;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -14,7 +14,6 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.StringRequest;
 import com.example.andylin.homepackagemonitor.R;
 import com.example.andylin.homepackagemonitor.Volley.VolleySingleton;
 

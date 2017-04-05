@@ -1,4 +1,4 @@
-package com.example.andylin.homepackagemonitor.View.Activities;
+package com.example.andylin.homepackagemonitor.Views.Activities;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -22,9 +22,9 @@ import android.widget.TextView;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.example.andylin.homepackagemonitor.Fragments.HomeFragment;
-import com.example.andylin.homepackagemonitor.Fragments.MapFragment;
-import com.example.andylin.homepackagemonitor.Fragments.SettingsFragment;
+import com.example.andylin.homepackagemonitor.Views.Fragments.HomeFragment;
+import com.example.andylin.homepackagemonitor.Views.Fragments.MapFragment;
+import com.example.andylin.homepackagemonitor.Views.Fragments.SettingsFragment;
 import com.example.andylin.homepackagemonitor.R;
 import com.example.andylin.homepackagemonitor.Volley.CustomJSONArrayRequest;
 import com.example.andylin.homepackagemonitor.Volley.VolleySingleton;
@@ -97,6 +97,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 editor.commit();
 
                 drawerMessage.setText("Welcome " +  data.getStringExtra("USERNAME"));
+                requestDevices();
 
                 navigationView.getMenu().getItem(0).setChecked(true);
             }
@@ -269,5 +270,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
 
+    }
+
+    public void setNavigationDrawerCheckedItem(int resId){
+        navigationView.setCheckedItem(resId);
     }
 }

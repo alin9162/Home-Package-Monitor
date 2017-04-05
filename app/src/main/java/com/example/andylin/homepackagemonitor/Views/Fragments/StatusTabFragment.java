@@ -1,8 +1,5 @@
-package com.example.andylin.homepackagemonitor.Fragments;
+package com.example.andylin.homepackagemonitor.Views.Fragments;
 
-import android.app.Activity;
-import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -34,6 +31,7 @@ import com.example.andylin.homepackagemonitor.R;
 
 public class StatusTabFragment extends Fragment {
     private static final String TAG = "StatusTabFragment";
+
     private static final int BLUETOOTH_REQUEST = 1;
     private boolean socketConnected = false;
     private BluetoothAdapter mBluetoothAdapter;
@@ -43,11 +41,11 @@ public class StatusTabFragment extends Fragment {
     public static OutputStream mmOutStream = null;
     private boolean Connected = false;
 
-    private Button unlockButton;
-    private Button lockButton;
-    private Button enableBluetoothButton;
-    private LinearLayout lockUnlockLayout;
-    private LinearLayout enableBluetoothLayout;
+    private Button mUnlockButton;
+    private Button mLockButton;
+    private Button mEnableBluetoothButton;
+    private LinearLayout mLockUnlockLayout;
+    private LinearLayout mEnableBluetoothLayout;
     BluetoothDevice ourDevice;
 
     @Override
@@ -60,39 +58,37 @@ public class StatusTabFragment extends Fragment {
             Toast.makeText(getActivity(), "There is no Bluetooth on this device.", Toast.LENGTH_LONG).show();
         }
 
-        lockUnlockLayout = (LinearLayout)  view.findViewById(R.id.lock_unlock_layout);
-        enableBluetoothLayout = (LinearLayout) view.findViewById(R.id.enable_bt_layout);
+        mLockUnlockLayout = (LinearLayout) view.findViewById(R.id.lock_unlock_layout);
+        mEnableBluetoothLayout = (LinearLayout) view.findViewById(R.id.enable_bt_layout);
 
-        enableBluetoothButton = (Button) view.findViewById(R.id.enable_bt_button);
-        enableBluetoothButton.setOnClickListener(new View.OnClickListener() {
+        mEnableBluetoothButton = (Button) view.findViewById(R.id.enable_bt_button);
+        mEnableBluetoothButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(connectBluetooth()){
-                    lockUnlockLayout.setVisibility(View.VISIBLE);
-                    enableBluetoothLayout.setVisibility(View.GONE);
+                if (connectBluetooth()) {
+                    mLockUnlockLayout.setVisibility(View.VISIBLE);
+                    mEnableBluetoothLayout.setVisibility(View.GONE);
                 }
             }
         });
 
-        unlockButton = (Button) view.findViewById(R.id.unlock_button);
-        unlockButton.setOnClickListener(new View.OnClickListener() {
+        mUnlockButton = (Button) view.findViewById(R.id.unlock_button);
+        mUnlockButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                for (int i = 0; i < 100; i++){
+                for (int i = 0; i < 100; i++) {
                     WriteToBTDevice("uuuuuuuu");
                 }
-                Log.e(TAG, "Unlock Button Pressed");
             }
         });
 
-        lockButton = (Button) view.findViewById(R.id.lock_button);
-        lockButton.setOnClickListener(new View.OnClickListener() {
+        mLockButton = (Button) view.findViewById(R.id.lock_button);
+        mLockButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                for (int i = 0; i < 100; i++){
+                for (int i = 0; i < 100; i++) {
                     WriteToBTDevice("llllllll");
                 }
-                Log.e(TAG, "Lock Button Pressed");
             }
         });
         return view;
@@ -101,11 +97,10 @@ public class StatusTabFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        if (Connected && mBluetoothAdapter != null){
-            lockUnlockLayout.setVisibility(View.VISIBLE);
-            enableBluetoothLayout.setVisibility(View.GONE);
+        if (Connected && mBluetoothAdapter != null) {
+            mLockUnlockLayout.setVisibility(View.VISIBLE);
+            mEnableBluetoothLayout.setVisibility(View.GONE);
         }
-        Log.e(TAG, "Refreshing Status Tab");
     }
 
     public BluetoothDevice getDevice() {
@@ -226,17 +221,12 @@ public class StatusTabFragment extends Fragment {
         }
     }
 
-    public boolean connectBluetooth(){
+    public boolean connectBluetooth() {
         ourDevice = getDevice();
         if (ourDevice == null) {
             checkBluetoothEnabled();
             return true;
         } else {
-            final ProgressDialog progressDialog = new ProgressDialog(getActivity());
-            progressDialog.setCancelable(false);
-            progressDialog.setMessage("Connecting to Bluetooth...");
-            progressDialog.show();
-
             CreateSerialBluetoothDeviceSocket(aNewdevice);
 
             int count = 0;
@@ -246,14 +236,10 @@ public class StatusTabFragment extends Fragment {
                 count++;
             }
 
-            progressDialog.dismiss();
-
-            if (Connected == false){
+            if (Connected == false) {
                 Toast.makeText(getActivity(), "Bluetooth Connection Failed", Toast.LENGTH_SHORT).show();
                 return false;
-            }
-
-            else {
+            } else {
                 GetInputOutputStreamsForSocket();
                 return true;
             }
@@ -263,7 +249,7 @@ public class StatusTabFragment extends Fragment {
     @Override
     public void setMenuVisibility(boolean menuVisible) {
         super.setMenuVisibility(menuVisible);
-        if (menuVisible && isAdded()){
+        if (menuVisible && isAdded()) {
             checkBluetoothEnabled();
         }
     }

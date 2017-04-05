@@ -1,4 +1,4 @@
-package com.example.andylin.homepackagemonitor.View.Activities;
+package com.example.andylin.homepackagemonitor.Views.Activities;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -12,24 +12,19 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.VolleyLog;
-import com.android.volley.toolbox.HttpHeaderParser;
-import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.example.andylin.homepackagemonitor.R;
 import com.example.andylin.homepackagemonitor.Volley.VolleySingleton;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.UnsupportedEncodingException;
-
 public class SignUpActivity extends AppCompatActivity {
     private static final String TAG = "SignUpActivity";
+    private SignUpActivity mSignUpActivity;
 
     private EditText usernameText;
     private EditText passwordText;
@@ -44,6 +39,7 @@ public class SignUpActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
+        mSignUpActivity = this;
 
         usernameText = (EditText) findViewById(R.id.username_text);
         passwordText = (EditText) findViewById(R.id.password_text);
@@ -62,18 +58,10 @@ public class SignUpActivity extends AppCompatActivity {
         signInText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
-//                startActivity(intent);
                 finish();
             }
         });
     }
-
-//    @Override
-//    public void onBackPressed() {
-//        // Disable going back to the Main Activity
-//        moveTaskToBack(true);
-//    }
 
     public void signUp() {
         if (!isValidInput()) {
@@ -97,58 +85,46 @@ public class SignUpActivity extends AppCompatActivity {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            final String requestBody = jsonObject.toString();
 
             String url = getResources().getString(R.string.serverip) + "signup";
 
-            // Make a custom BooleanRequest to make HTTP requests
-            StringRequest stringRequest = new StringRequest(Request.Method.PUT, url, new Response.Listener<String>() {
+            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.PUT, url, jsonObject, new Response.Listener<JSONObject>() {
                 @Override
-                public void onResponse(String response) {
-                    Log.e(TAG, "Response: " + response);
+                public void onResponse(JSONObject response) {
+                    Log.e(TAG, response.toString());
                     progressDialog.dismiss();
 
-                    // Tell the LoginActivity that sign up was successful
-                    Intent returnIntent = new Intent();
-                    returnIntent.putExtra("USERNAME", usernameText.getText().toString());
-                    setResult(Activity.RESULT_OK, returnIntent);
-                    finish();
+                    String result = "";
+                    try{
+                        result = response.getString("result");
+                    }
+                    catch (JSONException e){
+                        e.printStackTrace();
+                    }
+
+                    if (!result.equals("User and Device added")){
+                        progressDialog.dismiss();
+                        Toast.makeText(mSignUpActivity, result, Toast.LENGTH_SHORT).show();
+                    }
+                    else {
+                        progressDialog.dismiss();
+
+                        // Tell the LoginActivity that sign up was successful
+                        Intent returnIntent = new Intent();
+                        returnIntent.putExtra("USERNAME", usernameText.getText().toString());
+                        setResult(Activity.RESULT_OK, returnIntent);
+                        finish();
+                    }
                 }
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
-                    error.printStackTrace();
-                    progressDialog.dismiss();
-                    Toast.makeText(getApplicationContext(), "Error creating account", Toast.LENGTH_SHORT).show();
-                }
-            })  {
-                @Override
-                public String getBodyContentType() {
-                    return "application/json; charset=utf-8";
-                }
 
-                @Override
-                public byte[] getBody() throws AuthFailureError {
-                    try {
-                        return requestBody == null ? null : requestBody.getBytes("utf-8");
-                    } catch (UnsupportedEncodingException uee) {
-                        VolleyLog.wtf("Unsupported Encoding while trying to get the bytes of %s using %s", requestBody, "utf-8");
-                        return null;
-                    }
                 }
-
-                @Override
-                protected Response<String> parseNetworkResponse(NetworkResponse response) {
-                    String responseString = "";
-                    if (response != null) {
-                        responseString = String.valueOf(response.statusCode);
-                    }
-                    return Response.success(responseString, HttpHeaderParser.parseCacheHeaders(response));
-                }
-            };
+            });
 
             // Access the RequestQueue through the singleton class to add the request to the request queue
-            VolleySingleton.getInstance(this).getRequestQueue().add(stringRequest);
+            VolleySingleton.getInstance(this).getRequestQueue().add(jsonObjectRequest);
         }
     }
 

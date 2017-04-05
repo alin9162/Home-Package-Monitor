@@ -6,24 +6,15 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <LinearLayout
-        android:id="@+id/enable_account_layout"
+    <Button
+        android:id="@+id/account_button"
         android:layout_width="match_parent"
         android:layout_height="70dp"
-        android:gravity="center"
-        android:orientation="horizontal">
-
-        <Button
-            android:id="@+id/account_button"
-            android:layout_width="match_parent"
-            android:layout_height="70dp"
-            android:background="?android:attr/selectableItemBackground"
-            android:drawableLeft="@mipmap/account_logo"
-            android:drawableRight="@mipmap/dropdown_carrot"
-            android:paddingLeft="10dp"
-            android:text="Account" />
-
-    </LinearLayout>
+        android:background="?android:attr/selectableItemBackground"
+        android:drawableLeft="@mipmap/account_logo"
+        android:drawableRight="@mipmap/dropdown_carrot"
+        android:paddingLeft="10dp"
+        android:text="Account" />
 
 
     <LinearLayout
@@ -96,7 +87,7 @@
         android:layout_width="match_parent"
         android:layout_height="70dp"
         android:background="?android:attr/selectableItemBackground"
-        android:drawableLeft="@drawable/ic_devices"
+        android:drawableLeft="@mipmap/ic_devices"
         android:drawableRight="@mipmap/dropdown_carrot"
         android:paddingLeft="10dp"
         android:text="Devices" />
@@ -124,7 +115,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:padding="5dp">
+            android:paddingLeft="5dp">
 
             <android.support.v7.widget.AppCompatEditText
                 android:id="@+id/add_device_edittext"
