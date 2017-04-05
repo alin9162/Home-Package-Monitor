@@ -1,5 +1,6 @@
 package com.example.andylin.homepackagemonitor.Views.Fragments;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -97,6 +98,7 @@ public class StatusFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        checkBluetoothEnabled();
         if (Connected && mBluetoothAdapter != null) {
             mLockUnlockLayout.setVisibility(View.VISIBLE);
             mEnableBluetoothLayout.setVisibility(View.GONE);
@@ -229,6 +231,11 @@ public class StatusFragment extends Fragment {
         } else {
             CreateSerialBluetoothDeviceSocket(aNewdevice);
 
+            final ProgressDialog progressDialog = new ProgressDialog(getActivity());
+            progressDialog.setCancelable(false);
+            progressDialog.setMessage("Connecting to Bluetooth...");
+            progressDialog.show();
+
             int count = 0;
 
             while (Connected == false && count < 5) {
@@ -238,19 +245,13 @@ public class StatusFragment extends Fragment {
 
             if (Connected == false) {
                 Toast.makeText(getActivity(), "Bluetooth Connection Failed", Toast.LENGTH_SHORT).show();
+                progressDialog.dismiss();
                 return false;
             } else {
                 GetInputOutputStreamsForSocket();
+                progressDialog.dismiss();
                 return true;
             }
-        }
-    }
-
-    @Override
-    public void setMenuVisibility(boolean menuVisible) {
-        super.setMenuVisibility(menuVisible);
-        if (menuVisible) {
-            checkBluetoothEnabled();
         }
     }
 }

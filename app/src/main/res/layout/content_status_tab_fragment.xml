@@ -1,25 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
-    
+
+    <!--<LinearLayout-->
+    <!--android:id="@+id/enable_bt_layout"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="70dp"-->
+    <!--android:orientation="vertical">-->
+
+    <!--<Button-->
+    <!--android:id="@+id/enable_bt_button"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:drawableLeft="@drawable/ic_settings_bluetooth"-->
+    <!--android:background="?android:attr/selectableItemBackground"-->
+    <!--android:text="Connect to HPM"-->
+    <!--android:gravity="center_vertical"-->
+    <!--android:paddingLeft="10dp"/>-->
+    <!--</LinearLayout>-->
+
+
     <LinearLayout
         android:id="@+id/enable_bt_layout"
         android:layout_width="match_parent"
         android:layout_height="70dp"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:gravity="center">
 
         <Button
             android:id="@+id/enable_bt_button"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
             android:drawableLeft="@drawable/ic_settings_bluetooth"
-            android:background="?android:attr/selectableItemBackground"
-            android:text="Connect to HPM"
-            android:gravity="center_vertical"
-            android:paddingLeft="10dp"/>
+            android:paddingLeft="10dp"
+            android:text="Connect to HPM" />
     </LinearLayout>
 
     <LinearLayout
@@ -33,18 +50,17 @@
             android:id="@+id/lock_button"
             android:layout_width="match_parent"
             android:layout_height="70dp"
-            android:drawableLeft="@mipmap/lock_logo"
             android:background="?android:attr/selectableItemBackground"
-            android:text="Lock"
+            android:drawableLeft="@mipmap/lock_logo"
             android:gravity="center_vertical"
-            android:paddingLeft="10dp"/>
+            android:paddingLeft="10dp"
+            android:text="Lock" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="top"
             android:orientation="horizontal">
-
 
             <View
                 android:layout_width="match_parent"
@@ -56,11 +72,11 @@
             android:id="@+id/unlock_button"
             android:layout_width="match_parent"
             android:layout_height="70dp"
-            android:drawableLeft="@mipmap/unlock_logo"
             android:background="?android:attr/selectableItemBackground"
-            android:text="Unlock"
+            android:drawableLeft="@mipmap/unlock_logo"
             android:gravity="center_vertical"
-            android:paddingLeft="10dp"/>
+            android:paddingLeft="10dp"
+            android:text="Unlock" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -68,12 +84,10 @@
             android:gravity="top"
             android:orientation="horizontal">
 
-
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="#cccccc" />
         </LinearLayout>
-
     </LinearLayout>
 </LinearLayout>
