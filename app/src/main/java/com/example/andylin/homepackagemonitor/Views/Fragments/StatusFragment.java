@@ -29,8 +29,8 @@ import com.example.andylin.homepackagemonitor.R;
  * Created by Andy Lin on 2017-03-18.
  */
 
-public class StatusTabFragment extends Fragment {
-    private static final String TAG = "StatusTabFragment";
+public class StatusFragment extends Fragment {
+    private static final String TAG = "StatusFragment";
 
     private static final int BLUETOOTH_REQUEST = 1;
     private boolean socketConnected = false;
@@ -249,7 +249,7 @@ public class StatusTabFragment extends Fragment {
     @Override
     public void setMenuVisibility(boolean menuVisible) {
         super.setMenuVisibility(menuVisible);
-        if (menuVisible && isAdded()) {
+        if (menuVisible) {
             checkBluetoothEnabled();
         }
     }

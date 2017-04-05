@@ -22,10 +22,12 @@ import android.widget.TextView;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.example.andylin.homepackagemonitor.Views.Fragments.HomeFragment;
+import com.example.andylin.homepackagemonitor.Views.Fragments.HistoryFragment;
 import com.example.andylin.homepackagemonitor.Views.Fragments.MapFragment;
+import com.example.andylin.homepackagemonitor.Views.Fragments.PendingFragment;
 import com.example.andylin.homepackagemonitor.Views.Fragments.SettingsFragment;
 import com.example.andylin.homepackagemonitor.R;
+import com.example.andylin.homepackagemonitor.Views.Fragments.StatusFragment;
 import com.example.andylin.homepackagemonitor.Volley.CustomJSONArrayRequest;
 import com.example.andylin.homepackagemonitor.Volley.VolleySingleton;
 
@@ -41,7 +43,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public static final String PREFS_FILE_NAME = "PreferenceFile";
     public static final int LOG_IN_REQUEST = 1;
 
-    private HomeFragment mHomeFragment;
+    private PendingFragment mPendingFragment;
+    private HistoryFragment mHistoryFragment;
+    private StatusFragment mStatusFragment;
     private SettingsFragment mSettingsFragment;
     private MapFragment mMapFragment;
 
@@ -83,7 +87,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         requestDevices();
 
-        startHomeFragment();
+        startPendingFragment();
     }
 
     @Override
@@ -120,8 +124,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_home) {
-            startHomeFragment();
+        if (id == R.id.nav_home){
+            startPendingFragment();
+        } else if (id == R.id.nav_history){
+            startHistoryFragment();
+        } else if (id == R.id.nav_status){
+            startStatusFragment();
         } else if (id  == R.id.nav_map){
             startMapFragment();
         } else if (id == R.id.nav_settings) {
@@ -191,18 +199,48 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     /*
-        Starts the Home Fragment
+        Starts the Pending Fragment
      */
-    public void startHomeFragment(){
-        if(mHomeFragment == null)
-            mHomeFragment = new HomeFragment();
+    public void startPendingFragment(){
+        if(mPendingFragment == null)
+            mPendingFragment = new PendingFragment();
 
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.main_content, mHomeFragment);
+        transaction.replace(R.id.main_content, mPendingFragment);
         transaction.addToBackStack(null);
         transaction.commit();
 
-        Log.e(TAG, "Switching to the Home Fragment");
+        Log.e(TAG, "Switching to the Status Fragment");
+    }
+
+    /*
+        Starts the History Fragment
+     */
+    public void startHistoryFragment(){
+        if(mHistoryFragment == null)
+            mHistoryFragment = new HistoryFragment();
+
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.main_content, mHistoryFragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
+
+        Log.e(TAG, "Switching to the History Fragment");
+    }
+
+    /*
+       Starts the Status Fragment
+    */
+    public void startStatusFragment(){
+        if(mStatusFragment == null)
+            mStatusFragment = new StatusFragment();
+
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.main_content, mStatusFragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
+
+        Log.e(TAG, "Switching to the Status Fragment");
     }
 
     /*

@@ -23,8 +23,8 @@ import com.example.andylin.homepackagemonitor.Views.Interfaces.PendingTabView;
  * Created by Andy Lin on 2017-03-17.
  */
 
-public class PendingTabFragment extends Fragment implements PendingTabView{
-    private static final String TAG = "PendingTabFragment";
+public class PendingFragment extends Fragment implements PendingTabView{
+    private static final String TAG = "PendingFragment";
     private PendingTabPresenter mPendingTabPresenter;
     private MainActivity mMainActivity;
 

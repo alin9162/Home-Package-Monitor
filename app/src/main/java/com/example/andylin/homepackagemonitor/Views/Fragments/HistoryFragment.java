@@ -23,8 +23,8 @@ import com.example.andylin.homepackagemonitor.Views.Interfaces.HistoryTabView;
  * Created by Andy Lin on 2017-03-18.
  */
 
-public class HistoryTabFragment extends Fragment implements View.OnClickListener, HistoryTabView{
-    private static final String TAG = "HistoryTabFragment";
+public class HistoryFragment extends Fragment implements View.OnClickListener, HistoryTabView{
+    private static final String TAG = "HistoryFragment";
     private HistoryTabPresenter mHistoryTabPresenter;
     private MainActivity mMainActivity;
 

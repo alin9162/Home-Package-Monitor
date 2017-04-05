@@ -2,52 +2,108 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <LinearLayout
+    <!--<LinearLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:orientation="horizontal"-->
+        <!--android:paddingTop="3dp"-->
+        <!--android:paddingBottom="3dp">-->
+
+        <!--<LinearLayout-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_weight="5"-->
+            <!--android:orientation="vertical"-->
+            <!--android:paddingLeft="5dp"-->
+            <!--android:paddingTop="10dp">-->
+
+            <!--<TextView-->
+                <!--android:id="@+id/history_access_status"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text="Access Granted"-->
+                <!--android:textColor="@color/black"-->
+                <!--android:textSize="16sp"-->
+                <!--android:paddingBottom="3dp"/>-->
+
+            <!--<TextView-->
+                <!--android:id="@+id/history_access_date"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text="Date"-->
+                <!--android:textColor="#BDBDBD"-->
+                <!--android:textSize="12sp" />-->
+        <!--</LinearLayout>-->
+
+        <!--<ImageView-->
+            <!--android:id="@+id/history_image"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="150dp"-->
+            <!--android:layout_weight="6"-->
+            <!--android:scaleType="centerCrop"-->
+            <!--android:src="@drawable/ubc" />-->
+    <!--</LinearLayout>-->
+
+    <!--<View-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="1dp"-->
+        <!--android:background="#E0E0E0" />-->
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/card_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingTop="3dp"
-        android:paddingBottom="3dp">
+        android:visibility="visible"
+        app:cardCornerRadius="3dp"
+        app:cardElevation="2dp"
+        app:cardUseCompatPadding="true">
 
         <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="5"
-            android:orientation="vertical"
-            android:paddingLeft="5dp"
-            android:paddingTop="10dp">
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/history_image"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:adjustViewBounds="true"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ubc" />
 
             <TextView
                 android:id="@+id/history_access_status"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Access Granted"
+                android:ellipsize="end"
+                android:maxLines="2"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:paddingTop="10dp"
+                android:scrollHorizontally="true"
+                android:text="Access Requested"
                 android:textColor="@color/black"
-                android:textSize="16sp"
-                android:paddingBottom="3dp"/>
+                android:textSize="20sp" />
 
             <TextView
                 android:id="@+id/history_access_date"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Date"
-                android:textColor="#BDBDBD"
-                android:textSize="12sp" />
+                android:ellipsize="end"
+                android:maxLines="2"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:paddingBottom="10dp"
+                android:scrollHorizontally="true"
+                android:text="Access Requested"
+                android:textColor="@color/black"
+                android:textSize="15sp" />
+
+
         </LinearLayout>
+    </android.support.v7.widget.CardView>
 
-        <ImageView
-            android:id="@+id/history_image"
-            android:layout_width="0dp"
-            android:layout_height="150dp"
-            android:layout_weight="6"
-            android:scaleType="centerCrop"
-            android:src="@drawable/ubc" />
-    </LinearLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="#E0E0E0" />
 </LinearLayout>

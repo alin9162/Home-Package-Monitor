@@ -37,11 +37,11 @@ public class HistoryTabPresenter {
     }
 
     public void setActionBar(){
-        mHistoryTabView.setActionBarTitle("Home");
+        mHistoryTabView.setActionBarTitle("History");
     }
 
     public void setNavDrawerSelectedItem(){
-        mHistoryTabView.setNavDrawerSelectedItem(R.id.nav_home);
+        mHistoryTabView.setNavDrawerSelectedItem(R.id.nav_history);
     }
 
     public void getCameraImage(){
@@ -95,6 +95,6 @@ public class HistoryTabPresenter {
         }
 
         mHistoryTabView.showGridView(new GridImageAdapter(mActivity, boxHistoryList));
-        mHistoryTabView.showListView(new HistoryListAdapter(boxHistoryList));
+        mHistoryTabView.showListView(new HistoryListAdapter(boxHistoryList, mActivity));
     }
 }

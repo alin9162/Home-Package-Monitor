@@ -1,7 +1,9 @@
 package com.example.andylin.homepackagemonitor.Views.Adapters;
 
+import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,9 +23,11 @@ import java.util.List;
 
 public class HistoryListAdapter extends RecyclerView.Adapter<HistoryListAdapter.ViewHolder>{
     private List<BoxHistory> boxHistoryList;
+    private Activity activity;
 
-    public HistoryListAdapter(List<BoxHistory> boxHistoryList){
+    public HistoryListAdapter(List<BoxHistory> boxHistoryList, Activity activity){
         this.boxHistoryList = boxHistoryList;
+        this.activity = activity;
     }
 
     @Override
@@ -42,9 +46,11 @@ public class HistoryListAdapter extends RecyclerView.Adapter<HistoryListAdapter.
 
         if (item.getWasGranted()){
             holder.boxStatusAccessGranted.setText("Access Granted");
+            holder.boxStatusAccessGranted.setTextColor(activity.getResources().getColor(R.color.colorAccessGranted));
         }
         else {
             holder.boxStatusAccessGranted.setText("Access Denied");
+            holder.boxStatusAccessGranted.setTextColor(Color.RED);
         }
 
         holder.boxStatusDate.setText(item.getDateAccessed());
