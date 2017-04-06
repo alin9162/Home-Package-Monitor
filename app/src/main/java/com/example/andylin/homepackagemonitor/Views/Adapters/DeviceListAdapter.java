@@ -15,6 +15,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.example.andylin.homepackagemonitor.Presenter.SettingsPresenter;
 import com.example.andylin.homepackagemonitor.R;
 import com.example.andylin.homepackagemonitor.Volley.VolleySingleton;
 
@@ -30,10 +31,12 @@ import java.util.List;
 public class DeviceListAdapter extends RecyclerView.Adapter<DeviceListAdapter.ViewHolder>{
     private List<String> deviceList;
     private Context context;
+    private SettingsPresenter mSettingsPresenter;
 
-    public DeviceListAdapter(List<String> deviceList, Context context){
+    public DeviceListAdapter(List<String> deviceList, Context context, SettingsPresenter settingsPresenter){
         this.deviceList = deviceList;
         this.context = context;
+        this.mSettingsPresenter = settingsPresenter;
     }
 
     @Override
@@ -86,6 +89,7 @@ public class DeviceListAdapter extends RecyclerView.Adapter<DeviceListAdapter.Vi
                 } catch(JSONException e) {
                     Log.e("REMOVE DEVICE", e.getMessage());
                 }
+                mSettingsPresenter.populateDeviceList();
             }
         });
     }

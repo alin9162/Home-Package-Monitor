@@ -2,9 +2,9 @@ package com.example.andylin.homepackagemonitor.Presenter;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.util.Log;
+import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -89,8 +89,13 @@ public class SettingsPresenter {
                 e.printStackTrace();
             }
         }
+        SharedPreferences loginSettings = mActivity.getSharedPreferences("PreferenceFile", mActivity.MODE_PRIVATE);
+        String currentDeviceID = loginSettings.getString("deviceid", "");
 
-        DeviceListAdapter deviceListAdapter = new DeviceListAdapter(devicesList, mActivity);
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(mActivity, R.layout.support_simple_spinner_dropdown_item, devicesList);
+        mSettingsView.showSpinner(arrayAdapter, arrayAdapter.getPosition(currentDeviceID));
+
+        DeviceListAdapter deviceListAdapter = new DeviceListAdapter(devicesList, mActivity, this);
         mSettingsView.showDeviceList(deviceListAdapter);
     }
 
@@ -177,5 +182,17 @@ public class SettingsPresenter {
 
         // Access the RequestQueue through the singleton class to add the request to the request queue
         VolleySingleton.getInstance(mActivity).getRequestQueue().add(jsonObjectRequest);
+    }
+
+    public void deviceSelected(String deviceName){
+        SharedPreferences loginSettings = mActivity.getSharedPreferences("PreferenceFile", mActivity.MODE_PRIVATE);
+        String currentDeviceID = loginSettings.getString("deviceid", "");
+        Log.e(TAG, "Current device id is: " + currentDeviceID);
+        if (!currentDeviceID.equals(deviceName)){
+            SharedPreferences.Editor editor = mActivity.getSharedPreferences("PreferenceFile", mActivity.MODE_PRIVATE).edit();
+            editor.putString("deviceid", deviceName);
+            editor.commit();
+            Log.e(TAG, "Changed device id to: " + deviceName);
+        }
     }
 }

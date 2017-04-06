@@ -1,9 +1,5 @@
 package com.example.andylin.homepackagemonitor.Views.Fragments;
 
-import android.app.Activity;
-import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -11,29 +7,23 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.example.andylin.homepackagemonitor.Presenter.SettingsPresenter;
 import com.example.andylin.homepackagemonitor.Views.Adapters.DeviceListAdapter;
 import com.example.andylin.homepackagemonitor.R;
 import com.example.andylin.homepackagemonitor.Views.Activities.MainActivity;
 import com.example.andylin.homepackagemonitor.Views.Interfaces.SettingsView;
-import com.example.andylin.homepackagemonitor.Volley.VolleySingleton;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 
 /**
@@ -56,6 +46,7 @@ public class SettingsFragment extends Fragment implements SettingsView{
     private LinearLayout mDevicesLayout;
     private EditText mAddDeviceEditText;
     private RecyclerView mRecyclerView;
+    private Spinner mSpinner;
 
     @Override
     public void setActionBarTitle(String title) {
@@ -75,6 +66,12 @@ public class SettingsFragment extends Fragment implements SettingsView{
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setAdapter(deviceListAdapter);
+    }
+
+    @Override
+    public void showSpinner(ArrayAdapter arrayAdapter, int index) {
+        mSpinner.setAdapter(arrayAdapter);
+        mSpinner.setSelection(index);
     }
 
     @Override
@@ -109,7 +106,18 @@ public class SettingsFragment extends Fragment implements SettingsView{
                 }
         );
 
+        mSpinner = (Spinner) view.findViewById(R.id.spinner);
+        mSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                mSettingsPresenter.deviceSelected(parent.getItemAtPosition(position).toString());
+            }
 
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
 
         mDevicesLayout = (LinearLayout) view.findViewById(R.id.devices_layout);
         mAddDeviceEditText = (EditText) view.findViewById(R.id.add_device_edittext);
