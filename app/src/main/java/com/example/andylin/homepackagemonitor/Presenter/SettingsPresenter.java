@@ -2,6 +2,7 @@ package com.example.andylin.homepackagemonitor.Presenter;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.util.Log;
 import android.widget.Toast;
@@ -127,5 +128,50 @@ public class SettingsPresenter {
     public void parseAddDevice(JSONObject response){
         Toast.makeText(mActivity, response.toString(), Toast.LENGTH_SHORT).show();
         populateDeviceList();
+    }
+
+    public void changePhoneNumber(String phoneNumber) {
+        SharedPreferences loginSettings = mActivity.getSharedPreferences("PreferenceFile", Context.MODE_PRIVATE);
+        String username = loginSettings.getString("username", "");
+        String password = loginSettings.getString("password", "");
+
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("username", username);
+            jsonObject.put("password", password);
+            jsonObject.put("phonenumber", phoneNumber);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        String url = mActivity.getResources().getString(R.string.serverip) + "updatenumber";
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.PUT, url, jsonObject, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                Log.e(TAG, response.toString());
+
+                String result = "";
+                try{
+                    result = response.getString("result");
+                }
+                catch (JSONException e){
+                    e.printStackTrace();
+                }
+
+                if (!result.equals("Succesfully updated phone number")){
+                    Toast.makeText(mActivity, result, Toast.LENGTH_SHORT).show();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+
+        // Access the RequestQueue through the singleton class to add the request to the request queue
+        VolleySingleton.getInstance(mActivity).getRequestQueue().add(jsonObjectRequest);
     }
 }

@@ -1,5 +1,9 @@
 package com.example.andylin.homepackagemonitor.Views.Fragments;
 
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -7,6 +11,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,11 +21,19 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.example.andylin.homepackagemonitor.Presenter.SettingsPresenter;
 import com.example.andylin.homepackagemonitor.Views.Adapters.DeviceListAdapter;
 import com.example.andylin.homepackagemonitor.R;
 import com.example.andylin.homepackagemonitor.Views.Activities.MainActivity;
 import com.example.andylin.homepackagemonitor.Views.Interfaces.SettingsView;
+import com.example.andylin.homepackagemonitor.Volley.VolleySingleton;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 
 /**
@@ -89,7 +102,9 @@ public class SettingsFragment extends Fragment implements SettingsView{
         mPhoneNumberButton.setOnClickListener(
                 new View.OnClickListener() {
                     public void onClick(View view) {
-                        int phoneNumber = Integer.valueOf(mPhoneNumberEditText.getText().toString());
+                        String phoneNumber = mPhoneNumberEditText.getText().toString();
+
+                        mSettingsPresenter.changePhoneNumber(phoneNumber);
                     }
                 }
         );
