@@ -126,7 +126,11 @@ public class SettingsPresenter {
     }
 
     public void parseAddDevice(JSONObject response){
-        Toast.makeText(mActivity, response.toString(), Toast.LENGTH_SHORT).show();
+        try {
+            Toast.makeText(mActivity, response.getString("result"), Toast.LENGTH_SHORT).show();
+        } catch (JSONException e) {
+            Log.e("ADD DEVICE", e.getMessage());
+        }
         populateDeviceList();
     }
 

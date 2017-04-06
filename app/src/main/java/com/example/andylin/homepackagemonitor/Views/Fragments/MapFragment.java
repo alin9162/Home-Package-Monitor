@@ -171,7 +171,7 @@ public class MapFragment extends Fragment {
         for (BoxLocationMarker marker: boxLocationMarkers){
             // For dropping a marker at a point on the Map
             LatLng lng = new LatLng(parseLatitude(marker.getLatitude()), parseLongitude(marker.getLongitude()));
-            googleMap.addMarker(new MarkerOptions().position(lng).title(marker.getDeviceID()).snippet("Description here"));
+            googleMap.addMarker(new MarkerOptions().position(lng).title(marker.getDeviceID()).snippet(Boolean.toString(marker.getIsPending())));
             builder.include(lng);
         }
 

@@ -3,6 +3,7 @@ package com.example.andylin.homepackagemonitor.Views.Adapters;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -80,7 +81,11 @@ public class DeviceListAdapter extends RecyclerView.Adapter<DeviceListAdapter.Vi
             }
 
             public void parseRemoveDevice(JSONObject response){
-                Toast.makeText(context, response.toString(), Toast.LENGTH_SHORT).show();
+                try {
+                    Toast.makeText(context, response.getString("result"), Toast.LENGTH_SHORT).show();
+                } catch(JSONException e) {
+                    Log.e("REMOVE DEVICE", e.getMessage());
+                }
             }
         });
     }

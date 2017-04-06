@@ -15,7 +15,12 @@ import com.example.andylin.homepackagemonitor.Model.BoxHistory;
 import com.example.andylin.homepackagemonitor.R;
 import com.example.andylin.homepackagemonitor.Utils.ImageUtils;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 /**
  * Created by Andy Lin on 2017-03-19.
@@ -52,8 +57,18 @@ public class HistoryListAdapter extends RecyclerView.Adapter<HistoryListAdapter.
             holder.boxStatusAccessGranted.setText("Access Denied");
             holder.boxStatusAccessGranted.setTextColor(Color.RED);
         }
+        String datetime = item.getDateAccessed();
+        try {
+            DateFormat pstFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
+            pstFormat.setTimeZone(TimeZone.getTimeZone("PST"));
 
-        holder.boxStatusDate.setText(item.getDateAccessed());
+            Date notFormatted = pstFormat.parse(item.getDateAccessed());
+
+            holder.boxStatusDate.setText(notFormatted.toString());
+
+        } catch (ParseException e) {
+            holder.boxStatusDate.setText(datetime);
+        }
     }
 
     @Override
