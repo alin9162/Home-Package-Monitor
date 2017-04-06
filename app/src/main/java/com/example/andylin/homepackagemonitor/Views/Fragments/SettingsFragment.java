@@ -4,6 +4,7 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -11,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -32,7 +34,9 @@ public class SettingsFragment extends Fragment implements SettingsView{
 
     private Button mAccountSettingsButton;
     private LinearLayout mAccountLayout;
-    private EditText mPhoneNumberEditText;
+
+    private ImageButton mPhoneNumberButton;
+    private AppCompatEditText mPhoneNumberEditText;
 
     private Button mDevicesButton;
     private Button mAddDeviceButton;
@@ -78,8 +82,19 @@ public class SettingsFragment extends Fragment implements SettingsView{
         mAccountLayout = (LinearLayout) view.findViewById(R.id.account_layout);
         mAccountSettingsButton = (Button) view.findViewById(R.id.account_button);
 
-        mPhoneNumberEditText = (EditText) view.findViewById(R.id.phone_number_entry);
+        mPhoneNumberEditText = (AppCompatEditText) view.findViewById(R.id.phone_number_entry);
         mPhoneNumberEditText.setTypeface(Typeface.DEFAULT);
+        mPhoneNumberButton = (ImageButton) view.findViewById(R.id.phone_number_button);
+
+        mPhoneNumberButton.setOnClickListener(
+                new View.OnClickListener() {
+                    public void onClick(View view) {
+                        int phoneNumber = Integer.valueOf(mPhoneNumberEditText.getText().toString());
+                    }
+                }
+        );
+
+
 
         mDevicesLayout = (LinearLayout) view.findViewById(R.id.devices_layout);
         mAddDeviceEditText = (EditText) view.findViewById(R.id.add_device_edittext);

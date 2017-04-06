@@ -34,32 +34,47 @@
         android:id="@+id/account_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
+        android:orientation="horizontal"
+        android:paddingLeft="5dp"
         android:visibility="gone">
 
-        <EditText
+        <android.support.v7.widget.AppCompatEditText
             android:id="@+id/phone_number_entry"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="50dp"
-            android:background="@null"
-            android:gravity="center"
-            android:hint="CHANGE PHONE NUMBER"
+            android:layout_weight="2"
+            android:hint="Update Phone Number"
             android:inputType="phone"
-            android:textColorHint="@color/black"
-            android:textCursorDrawable="@color/colorPrimaryDark"
-            android:textSize="14dp" />
+            android:textCursorDrawable="@color/colorPrimaryDark" />
 
-        <LinearLayout
+        <ImageButton
+            android:id="@+id/phone_number_button"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:background="?android:attr/selectableItemBackground"
+            android:src="@mipmap/checkmark_logo"
+            android:gravity="center"
+            android:layout_weight="0.7"
+            android:paddingRight="10dp"
+            android:paddingLeft="10dp"
+            android:scaleType="centerInside">
+        </ImageButton>
+
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/divider"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="top"
+        android:orientation="horizontal">
+
+        <View
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="top"
-            android:orientation="horizontal">
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="#cccccc" />
-        </LinearLayout>
+            android:layout_height="1dp"
+            android:background="#cccccc" />
     </LinearLayout>
 
     <Button
@@ -102,7 +117,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="3"
-                android:hint="Add new device id"/>
+                android:hint="Add New Device ID"/>
 
             <Button
                 android:id="@+id/add_device_button"
