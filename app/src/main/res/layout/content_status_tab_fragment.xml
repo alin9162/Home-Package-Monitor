@@ -4,45 +4,33 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <!--<LinearLayout-->
-    <!--android:id="@+id/enable_bt_layout"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="70dp"-->
-    <!--android:orientation="vertical">-->
-
-    <!--<Button-->
-    <!--android:id="@+id/enable_bt_button"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="match_parent"-->
-    <!--android:drawableLeft="@drawable/ic_settings_bluetooth"-->
-    <!--android:background="?android:attr/selectableItemBackground"-->
-    <!--android:text="Connect to HPM"-->
-    <!--android:gravity="center_vertical"-->
-    <!--android:paddingLeft="10dp"/>-->
-    <!--</LinearLayout>-->
-
-
     <LinearLayout
-        android:id="@+id/enable_bt_layout"
         android:layout_width="match_parent"
-        android:layout_height="70dp"
-        android:orientation="vertical"
-        android:gravity="center">
+        android:layout_height="56dp"
+        android:paddingLeft="10dp"
+        android:orientation="horizontal">
 
-        <Button
-            android:id="@+id/enable_bt_button"
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="Connect to HPM"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            android:gravity="center_vertical"/>
+
+        <Switch
+            android:id="@+id/pair_switch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:drawableLeft="@drawable/ic_settings_bluetooth"
-            android:paddingLeft="10dp"
-            android:text="Connect to HPM" />
+            android:gravity="center_vertical" />
+
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/lock_unlock_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="vertical"
         android:visibility="gone">
 
@@ -90,4 +78,6 @@
                 android:background="#cccccc" />
         </LinearLayout>
     </LinearLayout>
+
+
 </LinearLayout>

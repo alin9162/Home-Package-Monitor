@@ -176,6 +176,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     public void populateSpinner(JSONArray jsonArray){
+        Log.e(TAG, "Populating spinner");
         List<String> spinnerList = new ArrayList<String>();
 
         for (int i = 0; i < jsonArray.length(); i++){
