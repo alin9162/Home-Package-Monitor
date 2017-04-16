@@ -119,7 +119,8 @@ public class SignUpActivity extends AppCompatActivity {
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
-
+                    progressDialog.dismiss();
+                    Toast.makeText(mSignUpActivity, "Sign Up Failed", Toast.LENGTH_SHORT).show();
                 }
             });
 

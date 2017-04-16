@@ -28,6 +28,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public static final String PREFS_FILE_NAME = "PreferenceFile";
     public static final int LOG_IN_REQUEST = 1;
 
+    private boolean newlyLoggedIn = false;
+
     private PendingFragment mPendingFragment;
     private HistoryFragment mHistoryFragment;
     private StatusFragment mStatusFragment;
@@ -82,8 +84,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 drawerMessage.setText("Welcome " +  data.getStringExtra("USERNAME"));
 
                 navigationView.getMenu().getItem(0).setChecked(true);
+                newlyLoggedIn = true;
             }
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (newlyLoggedIn){
+            startPendingFragment();
+        }
+        newlyLoggedIn = false;
     }
 
     @Override
